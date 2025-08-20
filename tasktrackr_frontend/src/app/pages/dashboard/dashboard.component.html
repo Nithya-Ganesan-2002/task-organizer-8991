@@ -1,0 +1,55 @@
+<section class="container">
+  <header class="topbar">
+    <div class="brand">
+      <div class="dot"></div>
+      <h1>TaskTrackr</h1>
+    </div>
+    <div class="filters">
+      <div class="search">
+        <input
+          type="text"
+          placeholder="Search tasks..."
+          (input)="onSearchChange($any($event.target).value)"
+        />
+      </div>
+      <select (change)="onStatusChange($any($event.target).value)">
+        <option value="all">All</option>
+        <option value="active">Active</option>
+        <option value="completed">Completed</option>
+      </select>
+      <select (change)="onPriorityChange($any($event.target).value)">
+        <option value="all">Any priority</option>
+        <option value="low">Low</option>
+        <option value="medium" selected>Medium</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="content">
+    <app-task-list
+      [tasks]="filteredTasks()"
+      (toggle)="onToggleComplete($event)"
+      (edit)="openEdit($event)"
+      (remove)="onDelete($event)"
+    />
+  </main>
+
+  <button class="fab" title="Add task" (click)="openCreate()">＋</button>
+
+  <div class="modal-backdrop" *ngIf="showModal()" (click)="closeModal()"></div>
+  <div class="modal" *ngIf="showModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ editTask() ? 'Edit task' : 'New task' }}</h2>
+        <button class="close" (click)="closeModal()">✕</button>
+      </div>
+      <app-task-form
+        [mode]="editTask() ? 'edit' : 'create'"
+        [task]="editTask()"
+        (submitForm)="onSubmitForm($event)"
+        (cancel)="closeModal()"
+      />
+    </div>
+  </div>
+</section>

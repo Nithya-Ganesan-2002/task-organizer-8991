@@ -1,0 +1,55 @@
+<form (ngSubmit)="onSubmit()" class="form">
+  <div class="field">
+    <label for="title">Title</label>
+    <input
+      id="title"
+      type="text"
+      [value]="title()"
+      (input)="title.set($any($event.target).value)"
+      placeholder="e.g., Buy groceries"
+      autofocus
+      required
+    />
+  </div>
+
+  <div class="field">
+    <label for="desc">Description</label>
+    <textarea
+      id="desc"
+      rows="3"
+      [value]="description()"
+      (input)="description.set($any($event.target).value)"
+      placeholder="Optional details..."
+    ></textarea>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="due">Due date</label>
+      <input
+        id="due"
+        type="date"
+        [value]="dueDate() ?? ''"
+        (input)="dueDate.set($any($event.target).value || null)"
+      />
+    </div>
+
+    <div class="field">
+      <label for="priority">Priority</label>
+      <select
+        id="priority"
+        [value]="priority()"
+        (change)="priority.set($any($event.target).value)"
+      >
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button type="button" class="btn ghost" (click)="onCancel()">Cancel</button>
+    <button type="submit" class="btn primary">{{ mode === 'create' ? 'Create' : 'Save' }}</button>
+  </div>
+</form>

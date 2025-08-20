@@ -1,0 +1,34 @@
+<div class="empty" *ngIf="tasks.length === 0">
+  <p>No tasks yet. Click the + button to add your first task.</p>
+</div>
+
+<ul class="list" *ngIf="tasks.length > 0">
+  <li class="item" *ngFor="let t of tasks; trackBy: trackById">
+    <label class="checkbox">
+      <input type="checkbox" [checked]="t.completed" (change)="onToggle(t.id)" />
+      <span></span>
+    </label>
+
+    <div class="content" [class.completed]="t.completed">
+      <div class="top">
+        <span class="title">{{ t.title }}</span>
+        <span class="pill" [class.low]="t.priority==='low'" [class.medium]="t.priority==='medium'" [class.high]="t.priority==='high'">
+          {{ t.priority }}
+        </span>
+      </div>
+      <div class="meta">
+        <span class="desc" *ngIf="t.description">{{ t.description }}</span>
+        <span class="due" *ngIf="t.dueDate">Due {{ dueLabel(t) }}</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="icon" title="Edit" (click)="onEdit(t)">
+        ✎
+      </button>
+      <button class="icon danger" title="Delete" (click)="onRemove(t.id)">
+        🗑
+      </button>
+    </div>
+  </li>
+</ul>
